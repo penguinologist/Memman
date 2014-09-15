@@ -78,11 +78,15 @@ public class MemoryManager
 
     public String getData(int index)
     {
-        int size = pool[index];
-        return null;
+        int size = pool[index] * 0xff00 + pool[index + 1] * 0x00ff;
+        char[] temp = new char[size];
+        for (int i = 0; i < size; i++)
+        {
+            temp[i] =(char) pool[index + 2 + i];
+        }
+
+        return String.valueOf(temp);
     }
-
-
 
 
     private void expandMemoryPool()
