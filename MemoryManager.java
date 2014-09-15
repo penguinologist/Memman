@@ -1,3 +1,5 @@
+import java.math.BigInteger;
+
 // -------------------------------------------------------------------------
 /**
  * Write a one-sentence summary of your class here. Follow it with additional
@@ -13,8 +15,6 @@ public class MemoryManager
     private int       blockSize;
     private byte[]    pool;
     private FreeBlock availableMem;
-    private Hash<String, Integer> artists;
-    private Hash<String, Integer> songs;
 
 
     // Constructor
@@ -43,25 +43,46 @@ public class MemoryManager
      * @param size
      * @return 0: successful 1: increase size of pool -1: fail
      */
-    Handle insert(byte[] space, int size)
+    Handle insert(byte[] space)
     {
+        int size = space.length;
+        byte[] newSpace = new byte[size + 2];
+        for (int i = 0; i < size; i++)
+        {
+            newSpace[2 + i] = space[i];
+        }
+        size = size + 2;
+        BigInteger temp = BigInteger.valueOf(size);
+        byte[] sizeByte = temp.toByteArray();
+        newSpace[0] = sizeByte[sizeByte.length - 2];
+        newSpace[1] = sizeByte[sizeByte.length - 1];
+
         while (availableMem.getBlock(size) == null)
         {
             this.expandMemoryPool();
         }
 
         Handle insertPos = availableMem.getBlock(size);
-        //Copy data to memory pool
+        // Copy data to memory pool
         for (int i = insertPos.getStartPosition(); i < insertPos
             .getStartPosition() + size; i++)
         {
-            pool[i] = space[i-insertPos.getStartPosition()];
+            pool[i] = newSpace[i - insertPos.getStartPosition()];
         }
         // Delete freeblocl
         Handle result = new Handle(insertPos.getStartPosition(), size);
         availableMem.remove(result);
         return result;
     }
+
+
+    public String getData(int index)
+    {
+        int size = pool[index];
+        return null;
+    }
+
+
 
 
     private void expandMemoryPool()
