@@ -34,9 +34,9 @@ public class Memman {
 		commandFile = args[2];
 		artists = new Hash<String, Integer>(initialHashSize);
 		songs = new Hash<String, Integer>(initialHashSize);
-		memManager = new MemoryManager(blockSize, initialHashSize); // TODO
-																	// should
-																	// we link
+		memManager = new MemoryManager(blockSize); // TODO
+													// should
+													// we link
 		readCommandFile(commandFile);
 
 	}
@@ -97,11 +97,14 @@ public class Memman {
 			// artist <SEP> song
 
 			if (!artists.containsKey(args[0])) {
-
-				artists.put(args[0], memManager.insert(args[0].getBytes()));
+				success = true;
+				artists.put(args[0], memManager.insert(args[0].getBytes())
+						.getStartPosition());
 			}
 			if (!songs.containsKey(args[1])) {
-				songs.put(args[1], memManager.insert(args[1].getBytes()));
+				success = true;
+				songs.put(args[1], memManager.insert(args[1].getBytes())
+						.getStartPosition());
 			}
 
 		}
@@ -116,11 +119,18 @@ public class Memman {
 
 	private static void remove(String[] args) {
 		boolean actionExecuted = false;
+		
+		
+		
 		if (artists.containsKey(args[0])) {
+			
+			//TODO remove from memory manager
 			artists.remove(args[0]);
 			actionExecuted = true;
 		}
 		if (songs.containsKey(args[0])) {
+			//TODO remove from memory manager
+
 			songs.remove(args[0]);
 			actionExecuted = true;
 		}
@@ -135,17 +145,21 @@ public class Memman {
 
 	private static void print(String[] args) {
 		if (args[0].equals("artist")) {
-			//print out values
-			//iterate this stuff...{
-			
-			memManager.getData(artists.get(args[0]));
-			
-			//}
-			
-		} else if (args[0].equals("song")) {
-			memManager.getData(songs.get(args[0]));
-		} else if (args[0].equals("blocks")) {
+			// print out values
+			// iterate this stuff...{
 
+			memManager.getData(artists.get(args[0]));
+
+			// }
+
+		} else if (args[0].equals("song")) {
+
+			// iterate this stuff{
+
+			memManager.getData(songs.get(args[0]));
+			// }
+		} else if (args[0].equals("blocks")) {
+			// TODO
 		}
 	}
 }

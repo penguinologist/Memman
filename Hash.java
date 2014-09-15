@@ -25,6 +25,9 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 			capacity *= 2;
 
 		table = new int[capacity];
+		for (int i = 0; i < table.length; i++)
+			table[i] = -1;
+
 		items = 0;
 		this.initialCapacity = initialCapacity;
 	}
@@ -43,12 +46,12 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 
 	@Override
 	public void clear() {
-		int[] tab = table;
-		for (int i = 0; i < tab.length; i++)
-			tab[i] = -1;
 
-		table = tab;
+		for (int i = 0; i < table.length; i++)
+			table[i] = -1;
+
 		capacity = initialCapacity;
+		items = 0;
 	}
 
 	@Override
@@ -71,7 +74,7 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 		// modCount++;
 		// addEntry(hash, key, value, i);
 
-		int hash = (int) sfold((String) key, items);
+		int hash = (int) sfold((String) key, capacity);
 
 		table[hash] = (Integer) value;
 		items++;
@@ -108,14 +111,8 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 
 	@Override
 	public boolean containsKey(Object key) {
-		int k = (int) key;
-		for (int i = 0; i < table.length; i++) {
-			if (table[i] == k) {
-				return true;
-			}
-		}
-
-		return false;
+		int k = (int) sfold((String) key, capacity);
+		return table[k] != -1;
 	}
 
 	@Override
@@ -134,11 +131,10 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	// key = hash value
 	@Override
 	public V get(Object key) {
-		
-		
-		int a = table[(int)sfold((String)key,capacity)];
-		Integer b = new Integer (a);
-		return  (V)b;
+
+		int a = table[(int) sfold((String) key, capacity)];
+		Integer b = new Integer(a);
+		return (V) b;
 	}
 
 	@Override
@@ -160,22 +156,23 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 
 	@Override
 	public V remove(Object key) {
-
-		for (int i = 0; i < capacity; i++) {
-			if (table[0] == (int) key) {
-				items--;
-				table[0] = -1;
-				break;
-			}
-		}
+		V result = null;
+		int index = (int) sfold((String) key, capacity);
+		if (table[index] == -1)
+			return null;
 		items--;
-		return null;
+		result = (V) Integer.valueOf((table[index]));
+		return result;
 	}
 
 	@Override
 	public int size() {
 
 		return capacity;
+	}
+
+	public int items() {
+		return items;
 	}
 
 	@Override

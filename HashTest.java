@@ -8,21 +8,61 @@ import org.junit.Test;
  */
 
 /**
- * @author Jeroen
- *
+ * @author Jeroen Goossens (jeroen)
+ * @author Phuong Le (ldp91)
  */
 public class HashTest {
+	Hash<String, Integer> test;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		test = new Hash<String, Integer>(32);
+
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testClear() {
+		test.put("blablabla", test.size());
+		assertEquals(1, test.items());
+		test.clear();
+		assertEquals(0, test.items());
 	}
 
+	@Test
+	public void testContainsKey() {
+		test.put("test value", test.size());
+		assertEquals(32, test.size());
+		assertEquals(1, test.items());
+		assertTrue(test.containsKey("test value"));
+	}
+
+	@Test
+	public void testGet() {
+		test.put("test", test.size());
+		assertEquals(32, (int)test.get("test"));
+		
+	}
+
+	@Test
+	public void testisEmtpy() {
+		assertTrue(test.isEmpty());
+		test.put("test value", test.size());
+		assertEquals(32, test.size());
+
+	}
+
+	@Test
+	public void testRemove() {
+		test.put("test value", test.size());
+		assertEquals(1, test.items());
+		test.remove("test value");
+		assertEquals(0, test.items());
+
+		
+	}
+
+	@Test
+	public void testSize() {
+		assertEquals(32, test.size());
+	}
 }
