@@ -10,6 +10,7 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	private static final long serialVersionUID = 1L;
 	private int size;
 	private int capacity;
+	private int items;
 	private int[] table;
 
 	/*
@@ -35,12 +36,12 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 		capacity = newCapacity;
 		size = newCapacity;
 		table = newTable;
+		items = 0;
 
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
 		int[] tab = table;
 		for (int i = 0; i < tab.length; i++)
 			tab[i] = -1;
@@ -69,12 +70,14 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 		// modCount++;
 		// addEntry(hash, key, value, i);
 
-		if (key == null) {
-			// do something
+		int hash = (int) sfold((String) key, size);
+
+		table[hash] = (Integer) value;
+		items++;
+
+		if (items > capacity / 2) {
+			extendArray();
 		}
-
-		int hash = (int) sfold((String) value, size);
-
 		return null;
 
 	}
@@ -123,7 +126,7 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 
 	@Override
 	public Set<java.util.Map.Entry<K, V>> entrySet() {
-		// TODO Auto-generated method stub
+		// not implemented
 		return null;
 	}
 
@@ -156,7 +159,15 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 
 	@Override
 	public V remove(Object key) {
-		// TODO Auto-generated method stub
+
+		for (int i = 0; i < size; i++) {
+			if (table[0] == (int) key) {
+				items--;
+				table[0] = -1;
+				break;
+			}
+		}
+		items--;
 		return null;
 	}
 
