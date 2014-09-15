@@ -8,10 +8,10 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int size;
 	private int capacity;
 	private int items;
 	private int[] table;
+	private int initialCapacity;
 
 	/*
 	 * 
@@ -25,6 +25,8 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 			capacity *= 2;
 
 		table = new int[capacity];
+		items = 0;
+		this.initialCapacity = initialCapacity;
 	}
 
 	private void extendArray() {
@@ -34,7 +36,6 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 			newTable[i] = table[i];
 		}
 		capacity = newCapacity;
-		size = newCapacity;
 		table = newTable;
 		items = 0;
 
@@ -47,7 +48,7 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 			tab[i] = -1;
 
 		table = tab;
-		size = 0;
+		capacity = initialCapacity;
 	}
 
 	@Override
@@ -70,7 +71,7 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 		// modCount++;
 		// addEntry(hash, key, value, i);
 
-		int hash = (int) sfold((String) key, size);
+		int hash = (int) sfold((String) key, items);
 
 		table[hash] = (Integer) value;
 		items++;
@@ -133,16 +134,16 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	// key = hash value
 	@Override
 	public V get(Object key) {
-		if (key == null) {
-			// do something
-		}
-
-		return null;
+		
+		
+		int a = table[(int)sfold((String)key,capacity)];
+		Integer b = new Integer (a);
+		return  (V)b;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return size == 0;
+		return items == 0;
 	}
 
 	@Override
@@ -160,7 +161,7 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	@Override
 	public V remove(Object key) {
 
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < capacity; i++) {
 			if (table[0] == (int) key) {
 				items--;
 				table[0] = -1;
@@ -174,7 +175,7 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	@Override
 	public int size() {
 
-		return size;
+		return capacity;
 	}
 
 	@Override
