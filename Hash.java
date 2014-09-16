@@ -80,6 +80,7 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	 *            of the item to be stored
 	 * @return V the item that was stored
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public V put(K key, V value) {
 		int index = (int) sfold((String) key, capacity);
@@ -90,7 +91,13 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	}
 
 	// Use folding on a string, summed 4 bytes at a time
-	private long sfold(String s, int M) {
+	/**
+	 * 
+	 * @param s
+	 * @param M
+	 * @return
+	 */
+	public long sfold(String s, int M) {
 		int intLength = s.length() / 4;
 		long sum = 0;
 		for (int j = 0; j < intLength; j++) {
@@ -161,6 +168,7 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	 *            to the hash
 	 * @return V value, possibly null if not found.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public V get(Object key) {
 		int a = table[(int) sfold((String) key, capacity)];
@@ -208,6 +216,7 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	 *            to delete
 	 * @return V value to be returned after having been deleted from the hashmap
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public V remove(Object key) {
 		int index = (int) sfold((String) key, capacity);
@@ -250,6 +259,7 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	 * 
 	 * @return Collection<V> collection of the values
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<V> values() {
 		List result = new List();
@@ -277,6 +287,16 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	 */
 	public int getItems() {
 		return items;
+	}
+
+	/**
+	 * Retrieves the index of a certain key
+	 * @param string of which to find the index
+	 * @return int value of the index
+	 */
+	public int getIndexOfKey(String string) {
+
+		return (int) sfold(string, capacity);
 	}
 
 }
