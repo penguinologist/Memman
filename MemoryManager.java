@@ -76,7 +76,7 @@ public class MemoryManager
 
     public String getData(int index)
     {
-        if (index > poolSize)
+        if (index >= poolSize)
             return null;
         int size = (int)pool[index] * 256 + (int)pool[index + 1];
         char[] temp = new char[size - 2];
@@ -105,8 +105,13 @@ public class MemoryManager
 
     public void removeAt(int index)
     {
-        int size = (int)pool[index] * 0xff00 + (int)pool[index + 1] * 0x00ff;
+        int size = (int)pool[index] * 256 + (int)pool[index + 1];
         Handle newFreeBlock = new Handle(index, size);
         availableMem.add(newFreeBlock);
+    }
+
+    public String getFreeMemory()
+    {
+        return availableMem.toString();
     }
 }
