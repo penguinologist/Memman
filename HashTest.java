@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * 
+ *
  */
 
 /**
@@ -23,16 +23,16 @@ public class HashTest {
 	@Test
 	public void testClear() {
 		test.put("blablabla", test.size());
-		assertEquals(1, test.items());
+		assertEquals(1, test.size());
 		test.clear();
-		assertEquals(0, test.items());
+		assertEquals(0, test.size());
 	}
 
 	@Test
 	public void testContainsKey() {
 		test.put("test value", test.size());
 		assertEquals(32, test.size());
-		assertEquals(1, test.items());
+		assertEquals(1, test.size());
 		assertTrue(test.containsKey("test value"));
 	}
 
@@ -40,7 +40,7 @@ public class HashTest {
 	public void testGet() {
 		test.put("test", test.size());
 		assertEquals(32, (int)test.get("test"));
-		
+
 	}
 
 	@Test
@@ -54,11 +54,11 @@ public class HashTest {
 	@Test
 	public void testRemove() {
 		test.put("test value", test.size());
-		assertEquals(1, test.items());
+		assertEquals(1, test.size());
 		test.remove("test value");
-		assertEquals(0, test.items());
+		assertEquals(0, test.size());
 
-		
+
 	}
 
 	@Test

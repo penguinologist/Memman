@@ -52,10 +52,8 @@ public class MemoryManager
             newSpace[2 + i] = space[i];
         }
         size = size + 2;
-        BigInteger temp = BigInteger.valueOf(size);
-        byte[] sizeByte = temp.toByteArray();
-        newSpace[0] = sizeByte[sizeByte.length - 2];
-        newSpace[1] = sizeByte[sizeByte.length - 1];
+        newSpace[0] = (byte)(size / 256);
+        newSpace[1] = (byte)(size % 256);
 
         while (availableMem.getBlock(size) == null)
         {
@@ -69,7 +67,7 @@ public class MemoryManager
         {
             pool[i] = newSpace[i - insertPos.getStartPosition()];
         }
-        // Delete freeblocl
+        // Delete freeblock
         Handle result = new Handle(insertPos.getStartPosition(), size);
         availableMem.remove(result);
         return result;
@@ -78,11 +76,13 @@ public class MemoryManager
 
     public String getData(int index)
     {
-        int size = pool[index] * 0xff00 + pool[index + 1] * 0x00ff;
-        char[] temp = new char[size];
-        for (int i = 0; i < size; i++)
+        if (index > poolSize)
+            return null;
+        int size = (int)pool[index] * 256 + (int)pool[index + 1];
+        char[] temp = new char[size - 2];
+        for (int i = 0; i < size - 2; i++)
         {
-            temp[i] =(char) pool[index + 2 + i];
+            temp[i] = (char)pool[index + 2 + i];
         }
 
         return String.valueOf(temp);
@@ -96,9 +96,17 @@ public class MemoryManager
         {
             temp[i] = pool[i];
         }
+        availableMem.add(new Handle(poolSize, blockSize));
         poolSize = poolSize + blockSize;
         pool = temp;
-        availableMem.add(new Handle(poolSize, blockSize));
+        System.out.println("Memory pool expanded to be " + poolSize + " bytes");
     }
 
+
+    public void removeAt(int index)
+    {
+        int size = (int)pool[index] * 0xff00 + (int)pool[index + 1] * 0x00ff;
+        Handle newFreeBlock = new Handle(index, size);
+        availableMem.add(newFreeBlock);
+    }
 }

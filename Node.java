@@ -1,5 +1,14 @@
-
-
+// -------------------------------------------------------------------------
+/**
+ *  Write a one-sentence summary of your class here.
+ *  Follow it with additional details about its purpose, what abstraction
+ *  it represents, and how to use it.
+ *  @param <T>
+ *
+ ** @author Tony Allevato (authored class skeleton)
+ *  @author1 Phuong Le(Ldp91)
+ *  @version 2014.09.14
+ */
 public class Node<T>
 {
     //~ Fields ................................................................
@@ -111,8 +120,6 @@ public class Node<T>
             return this;
         }
     }
-
-
     // ----------------------------------------------------------
     /**
      * Splits this node from its follower and then returns the follower.

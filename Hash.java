@@ -1,3 +1,4 @@
+import java.awt.List;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
@@ -5,7 +6,7 @@ import java.util.Set;
 
 public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private int capacity;
@@ -13,12 +14,11 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	private int[] table;
 	private int initialCapacity;
 
-	/*
-	 * 
-	 * data is stored in memory manager entry table is the list of all entries
-	 * (hash values)
+	// ----------------------------------------------------------
+	/**
+	 * Create a new Hash object.
+	 * @param initialCapacity
 	 */
-
 	public Hash(int initialCapacity) {
 		capacity = 1;
 		while (capacity < initialCapacity)
@@ -26,64 +26,45 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 
 		table = new int[capacity];
 		for (int i = 0; i < table.length; i++)
-			table[i] = -1;
-
+            table[i] = -1;
 		items = 0;
 		this.initialCapacity = initialCapacity;
 	}
 
-	private void extendArray() {
+	// ----------------------------------------------------------
+	/**
+	 * Place a description of your method here.
+	 */
+	public void extendHash() {
 		int newCapacity = 2 * capacity;
 		int[] newTable = new int[newCapacity];
-		for (int i = 0; i < capacity; i++) {
+		for (int i = 0; i < capacity; i++)
+		{
 			newTable[i] = table[i];
+		}
+		for (int i = capacity; i<newCapacity; i++)
+		{
+		    newTable[i] = -1;
 		}
 		capacity = newCapacity;
 		table = newTable;
-		items = 0;
-
 	}
 
 	@Override
 	public void clear() {
-
 		for (int i = 0; i < table.length; i++)
 			table[i] = -1;
-
-		capacity = initialCapacity;
 		items = 0;
+		capacity = initialCapacity;
 	}
 
 	@Override
 	public V put(K key, V value) {
-		// original java source code
-		//
-		// if (key == null)
-		// return putForNullKey(value);
-		// int hash = hash(key.hashCode());
-		// int i = indexFor(hash, table.length);
-		// for (Entry<k, V> e = table[i]; e != null; e = e.next) {
-		// Object k;
-		// if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
-		// V oldValue = e.value;
-		// e.value = value;
-		// e.recordAccess(this);
-		// return oldValue;
-		// }
-		// }
-		// modCount++;
-		// addEntry(hash, key, value, i);
-
-		int hash = (int) sfold((String) key, capacity);
-
-		table[hash] = (Integer) value;
+		int index = (int) sfold((String) key, capacity);
+		table[index] = (Integer) value;
 		items++;
-
-		if (items > capacity / 2) {
-			extendArray();
-		}
-		return null;
-
+		Integer result = index;
+		return (V) result;
 	}
 
 	// Use folding on a string, summed 4 bytes at a time
@@ -117,8 +98,13 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 
 	@Override
 	public boolean containsValue(Object value) {
-
-		// not implemented
+		for (int i=0; i<capacity; i++)
+		{
+		    if (table[i] == (int)value)
+		    {
+		        return true;
+		    }
+		}
 		return false;
 	}
 
@@ -128,13 +114,12 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 		return null;
 	}
 
-	// key = hash value
+	// key = hash index
 	@Override
 	public V get(Object key) {
-
-		int a = table[(int) sfold((String) key, capacity)];
-		Integer b = new Integer(a);
-		return (V) b;
+		int a = table[(int)sfold((String)key,capacity)];
+		Integer b = new Integer (a);
+		return  (V)b;
 	}
 
 	@Override
@@ -144,8 +129,8 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 
 	@Override
 	public Set<K> keySet() {
-		// not implemented
-		return null;
+		//Not Implement
+	    return null;
 	}
 
 	@Override
@@ -156,13 +141,11 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 
 	@Override
 	public V remove(Object key) {
-		V result = null;
-		int index = (int) sfold((String) key, capacity);
-		if (table[index] == -1)
-			return null;
+	    int index = (int) sfold((String) key, capacity);
+		Integer result = table[index];
+		table[index] = -1;
 		items--;
-		result = (V) Integer.valueOf((table[index]));
-		return result;
+		return (V) result;
 	}
 
 	@Override
@@ -171,14 +154,41 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 		return capacity;
 	}
 
-	public int items() {
-		return items;
+	public DoubleLinkedList<Integer> getValues()
+	{
+	    DoubleLinkedList<Integer> result = new DoubleLinkedList<Integer>();
+	    for (int i= 0; i<capacity; i++)
+        {
+            if (table[i] != -1)
+            {
+                result.append(new Integer(table[i]), result.getSize());
+            }
+        }
+
+	    return result;
 	}
 
 	@Override
 	public Collection<V> values() {
-		// not implemented
-		return null;
+	    List result = new List();
+        for (int i= 0; i<capacity; i++)
+        {
+            if (table[i] != -1)
+            {
+                result.add(Integer.toString(table[i]));
+            }
+        }
+        return (Collection<V>)result;
 	}
+
+    public int getCapacity()
+    {
+        return capacity;
+    }
+
+    public int getItems()
+    {
+        return items;
+    }
 
 }
