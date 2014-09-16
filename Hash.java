@@ -12,7 +12,6 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	private int capacity;
 	private int items;
 	private int[] table;
-	private int initialCapacity;
 
 	// ----------------------------------------------------------
 	/**
@@ -20,15 +19,19 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	 * @param initialCapacity
 	 */
 	public Hash(int initialCapacity) {
-		capacity = 1;
-		while (capacity < initialCapacity)
-			capacity *= 2;
+		if (initialCapacity % 2 == 0)
+		{
+		    capacity = initialCapacity;
+		}
+		else
+		{
+		    capacity = initialCapacity + 1;
+		}
 
 		table = new int[capacity];
 		for (int i = 0; i < table.length; i++)
             table[i] = -1;
 		items = 0;
-		this.initialCapacity = initialCapacity;
 	}
 
 	// ----------------------------------------------------------
@@ -55,7 +58,6 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 		for (int i = 0; i < table.length; i++)
 			table[i] = -1;
 		items = 0;
-		capacity = initialCapacity;
 	}
 
 	@Override
@@ -164,7 +166,6 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
                 result.append(new Integer(table[i]), result.getSize());
             }
         }
-
 	    return result;
 	}
 
