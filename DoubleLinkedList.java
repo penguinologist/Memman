@@ -1,22 +1,25 @@
 
 // -------------------------------------------------------------------------
 /**
- * Write a one-sentence summary of your class here. Follow it with additional
- * details about its purpose, what abstraction it represents, and how to use it.
+ * Double linked list class
  *
- * @author1 Phuong Le(Ldp91)
+ * @author Phuong Le(Ldp91)
+ * @author Jeroen
  * @version 2014.09.14
- * @param <T>
+ * @param <T> to make it generic
  */
 public class DoubleLinkedList<T>
 {
+	/**
+	 * local variables
+	 */
     private Node<T> head;
     private Node<T> tail;
     private int size;
 
     // ----------------------------------------------------------
     /**
-     * Create a new DoubleLinkedList object.
+     * Constructor for this class
      */
     public DoubleLinkedList()
     {
@@ -28,8 +31,9 @@ public class DoubleLinkedList<T>
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @param newData
+     * Adds data to the list at a certain position
+     * @param newData to be placed at the given postition
+     * @param position to place the item
      */
     public void append(T newData, int position)
     {
@@ -51,8 +55,8 @@ public class DoubleLinkedList<T>
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @param position
+     * removes the node at a certain position
+     * @param position where the node is supposed to be removed
      */
     public void remove(int position)
     {
@@ -88,8 +92,8 @@ public class DoubleLinkedList<T>
     }
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @return
+     * Returns the size of the linkedlist
+     * @return int size of the linkedlist
      */
     public int getSize()
     {
