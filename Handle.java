@@ -1,13 +1,15 @@
-// -------------------------------------------------------------------------
 /**
- * Write a one-sentence summary of your class here. Follow it with additional
- * details about its purpose, what abstraction it represents, and how to use it.
+ * This is the handle class, capable of delivering handles to items put in the memory pool
  *
- * @author User
+ * @author jeroen
+ * @author Phuong Le
  * @version Sep 14, 2014
  */
 public class Handle
 {
+	/**
+	 * local vars
+	 */
     private int startPosition;
     private int length;
 
@@ -15,9 +17,9 @@ public class Handle
     // Constructor
     // ----------------------------------------------------------
     /**
-     * Create a new Handle object.
-     * @param startPosition
-     * @param length
+     * Create a new Handle for the memory pool
+     * @param startPosition where the handle starts
+     * @param length of the item stored
      */
     public Handle(int startPosition, int length)
     {
@@ -28,8 +30,8 @@ public class Handle
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @return
+     * Returns the start position of the handle
+     * @return int value of the start position
      */
     public int getStartPosition()
     {
@@ -39,8 +41,8 @@ public class Handle
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @return
+     * returns the length of the string
+     * @return int value of the length
      */
     public int getLength()
     {
@@ -50,8 +52,8 @@ public class Handle
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @param startPosition
+     * This method sets the start position
+     * @param startPosition where the handle is supposed to start
      */
     public void setStartPosition(int startPosition)
     {
@@ -61,8 +63,8 @@ public class Handle
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @param length
+     * This method sets the length of the handle
+     * @param length of the handle
      */
     public void setLength(int length)
     {
@@ -72,9 +74,9 @@ public class Handle
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @param other
-     * @return
+     * This method checks to see if two handles are consecutive to eachother
+     * @param other handel to be compared to
+     * @return boolean value indicating validity
      */
     public boolean isConsecutiveTo(Handle other)
     {
@@ -88,8 +90,8 @@ public class Handle
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @param newBlock
+     * This method expands the handle to cover two handles.
+     * @param newBlock the new block to lengthen to
      */
     public void expand(Handle newBlock)
     {
@@ -99,7 +101,10 @@ public class Handle
         }
     }
 
-
+/**
+ * this method returns the string value of the handle
+ * @return String value of the handle
+ */
     public String toString()
     {
         return "(" + startPosition + "," + length + ")";
