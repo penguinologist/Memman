@@ -122,13 +122,13 @@ public class Memman
                     {
                         artists.put(
                             memManager.getData(listOfArtists.getElement(i)),
-                            listOfArtists.getElement(i).intValue());
+                            listOfArtists.getElement(i).intValue(), memManager);
                     }
 
                     System.out.println("Artist hash table size doubled.");
                 }
                 artists.put(args[0], memManager.insert(args[0].getBytes())
-                    .getStartPosition());
+                    .getStartPosition(), memManager);
                 System.out.println("|" + args[0]
                     + "| is added to the artist database.");
             }
@@ -148,13 +148,13 @@ public class Memman
                     {
                         songs.put(
                             memManager.getData(listOfSongs.getElement(i)),
-                            listOfSongs.getElement(i).intValue());
+                            listOfSongs.getElement(i).intValue(), memManager);
                     }
 
                     System.out.println("Song hash table size doubled.");
                 }
                 songs.put(args[1], memManager.insert(args[1].getBytes())
-                    .getStartPosition());
+                    .getStartPosition(), memManager);
                 System.out.println("|" + args[1]
                     + "| is added to the song database.");
             }
@@ -173,9 +173,9 @@ public class Memman
         {
             if (artists.containsKey(args[1], memManager))
             {
-                int index = artists.get(args[1]);
+                int index = artists.get(args[1],memManager);
                 memManager.removeAt(index);
-                artists.remove(args[1]);
+                artists.remove(args[1],memManager);
                 System.out.println("|" + args[1]
                     + "| is removed from the artist database.");
             }
@@ -189,9 +189,9 @@ public class Memman
         {
             if (songs.containsKey(args[1], memManager))
             {
-                int index = songs.get(args[1]);
+                int index = songs.get(args[1],memManager);
                 memManager.removeAt(index);
-                songs.remove(args[1]);
+                songs.remove(args[1],memManager);
                 System.out.println("|" + args[1]
                     + "| is removed from the song database.");
             }

@@ -4,12 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * 
- */
-
-/**
  * @author Jeroen
- * 
+ * @author Phuong Le (lpd91)
+ * @version 2014.09.14
  */
 public class DoubleLinkedListTest {
 

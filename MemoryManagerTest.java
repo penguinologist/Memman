@@ -8,6 +8,7 @@ import org.junit.Test;
  * 
  * @author Jeroen
  * @author Phuong Le
+ * @version 2014.09.14
  */
 public class MemoryManagerTest {
 
