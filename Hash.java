@@ -84,6 +84,14 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	@Override
 	public V put(K key, V value) {
 		int index = (int) sfold((String) key, capacity);
+
+		int j = 0;
+		while (table[index] != -1 && j<10) {
+			j++;
+			
+			index = index + j*j;
+			
+		}
 		table[index] = (Integer) value;
 		items++;
 		Integer result = index;
@@ -291,7 +299,9 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 
 	/**
 	 * Retrieves the index of a certain key
-	 * @param string of which to find the index
+	 * 
+	 * @param string
+	 *            of which to find the index
 	 * @return int value of the index
 	 */
 	public int getIndexOfKey(String string) {
