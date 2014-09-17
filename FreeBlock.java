@@ -17,8 +17,13 @@ public class FreeBlock
             data.append(newBlock, 0);
             return;
         }
-        if (newBlock.getStartPosition() + newBlock.getLength() == data
+        if (newBlock.getStartPosition() + newBlock.getLength() < data
             .getElement(0).getStartPosition())
+        {
+            data.append(newBlock, 0);
+            return;
+        }
+        if (newBlock.isConsecutiveTo(data.getElement(0)))
         {
             data.getElement(0).expand(newBlock);
             if (data.getSize() > 1)
@@ -48,7 +53,12 @@ public class FreeBlock
                 }
                 return;
             }
-
+            if (newBlock.isConsecutiveTo(data.getElement(i+1)))
+            {
+                data.getElement(i+1).setStartPosition(newBlock.getStartPosition());
+                data.getElement(i+1).setLength(newBlock.getLength() + data.getElement(i+1).getLength());
+                return;
+            }
             if (data.getElement(i).getStartPosition()
                 + data.getElement(i).getLength() < newBlock.getStartPosition()
                 && data.getElement(i + 1).getStartPosition()
@@ -106,7 +116,7 @@ public class FreeBlock
     public Handle getBlock(int size)
     {
         Handle result = null;
-        int bestFit = 100000000;
+        int bestFit = Integer.MAX_VALUE;
         for (int i = 0; i < data.getSize(); i++)
         {
             if (size <= data.getElement(i).getLength()

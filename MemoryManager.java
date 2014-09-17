@@ -1,5 +1,3 @@
-import java.math.BigInteger;
-
 // -------------------------------------------------------------------------
 /**
  * Write a one-sentence summary of your class here. Follow it with additional
@@ -99,7 +97,7 @@ public class MemoryManager
         availableMem.add(new Handle(poolSize, blockSize));
         poolSize = poolSize + blockSize;
         pool = temp;
-        System.out.println("Memory pool expanded to be " + poolSize + " bytes");
+        System.out.println("Memory pool expanded to be " + poolSize + " bytes.");
     }
 
 
