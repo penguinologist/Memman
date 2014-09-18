@@ -17,7 +17,6 @@
 // anything during the discussion or modifies any computer file
 // during the discussion. I have violated neither the spirit nor
 // letter of this restriction.
-
 /**
  * This is the handle class, capable of delivering handles to items put in the memory pool
  *

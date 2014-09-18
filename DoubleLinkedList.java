@@ -19,99 +19,101 @@
 // letter of this restriction.
 // -------------------------------------------------------------------------
 /**
- * Write a one-sentence summary of your class here. Follow it with additional
- * details about its purpose, what abstraction it represents, and how to use it.
- *
+ * doubly linked list of generic type
+ * 
  * @author1 Phuong Le(Ldp91)
  * @version 2014.09.14
  * @param <T>
+ *            generic type
  */
-public class DoubleLinkedList<T>
-{
-    private Node<T> head;
-    private Node<T> tail;
-    private int size;
+public class DoubleLinkedList<T> {
+	/**
+	 * class vars
+	 */
+	private Node<T> head;
+	private Node<T> tail;
+	private int size;
 
-    // ----------------------------------------------------------
-    /**
-     * Create a new DoubleLinkedList object.
-     */
-    public DoubleLinkedList()
-    {
-        head = new Node<T>(null);
-        tail = new Node<T>(null);
-        head.join(tail);
-        size = 0;
-    }
+	// ----------------------------------------------------------
+	/**
+	 * Create a new DoubleLinkedList object.
+	 */
+	public DoubleLinkedList() {
+		head = new Node<T>(null);
+		tail = new Node<T>(null);
+		head.join(tail);
+		size = 0;
+	}
 
-    // ----------------------------------------------------------
-    /**
-     * Place a description of your method here.
-     * @param newData
-     */
-    public void append(T newData, int position)
-    {
-        if (position > size)
-        {
-            return;
-        }
-        Node<T> current = head;
-        for (int i=0; i< position; i++)
-        {
-            current = current.next();
-        }
-        Node<T> temp = current.split();
-        Node<T> newNode = new Node<T>(newData);
-        newNode.join(temp);
-        current.join(newNode);
-        size++;
-    }
+	// ----------------------------------------------------------
+	/**
+	 * appends data at a position
+	 * 
+	 * @param newData
+	 *            to be added
+	 * @param position
+	 *            where data is to be placed
+	 */
+	public void append(T newData, int position) {
+		if (position > size) {
+			return;
+		}
+		Node<T> current = head;
+		for (int i = 0; i < position; i++) {
+			current = current.next();
+		}
+		Node<T> temp = current.split();
+		Node<T> newNode = new Node<T>(newData);
+		newNode.join(temp);
+		current.join(newNode);
+		size++;
+	}
 
-    // ----------------------------------------------------------
-    /**
-     * Place a description of your method here.
-     * @param position
-     */
-    public void remove(int position)
-    {
-        if (position >= size)
-        {
-            return;
-        }
-        Node<T> current = head;
-        for (int i=0; i<= position; i++)
-        {
-            current = current.next();
-        }
-        Node<T> temp = current.previous();
-        temp.split();
-        temp.join(current.split());
-        size--;
-    }
+	// ----------------------------------------------------------
+	/**
+	 * removes at a position
+	 * 
+	 * @param position
+	 *            to be removed
+	 */
+	public void remove(int position) {
+		if (position >= size) {
+			return;
+		}
+		Node<T> current = head;
+		for (int i = 0; i <= position; i++) {
+			current = current.next();
+		}
+		Node<T> temp = current.previous();
+		temp.split();
+		temp.join(current.split());
+		size--;
+	}
 
-    // ----------------------------------------------------------
-    /**
-     * Get element at a position. Index starts with 0
-     * @param index position need to get data
-     * @return Data at index
-     */
-    public T getElement(int index)
-    {
-        Node<T> current = head;
-        for (int i=0; i<= index; i++)
-        {
-            current = current.next();
-        }
-        return current.data();
-    }
-    // ----------------------------------------------------------
-    /**
-     * Place a description of your method here.
-     * @return
-     */
-    public int getSize()
-    {
-        return this.size;
-    }
+	// ----------------------------------------------------------
+	/**
+	 * Get element at a position. Index starts with 0
+	 * 
+	 * @param index
+	 *            position need to get data
+	 * @return Data at index
+	 */
+	public T getElement(int index) {
+		Node<T> current = head;
+		for (int i = 0; i <= index; i++) {
+			current = current.next();
+		}
+		return current.data();
+	}
+
+	// ----------------------------------------------------------
+	/**
+	 * gets the size of the list
+	 * 
+	 * @return int value of the size
+	 */
+	public int getSize() {
+		return this.size;
+	}
 
 }

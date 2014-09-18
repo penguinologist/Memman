@@ -1,4 +1,3 @@
-// -------------------------------------------------------------------------
 // On my honor:
 //
 // - I have not used source code obtained from another student,
@@ -18,14 +17,14 @@
 // anything during the discussion or modifies any computer file
 // during the discussion. I have violated neither the spirit nor
 // letter of this restriction.
+// -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
- *  @param <T>
+ *  Node class
+ *  @param <T> generic type
  *
  ** @author Tony Allevato (authored class skeleton)
- *  @author1 Phuong Le(Ldp91)
+ *  @author Phuong Le(Ldp91)
+ *  @author Jeroen
  *  @version 2014.09.14
  */
 public class Node<T>

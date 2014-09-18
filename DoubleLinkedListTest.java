@@ -28,7 +28,7 @@ import org.junit.Test;
  */
 public class DoubleLinkedListTest {
 
-	DoubleLinkedList<String> dll;
+	private DoubleLinkedList<String> dll;
 
 	/**
 	 * Sets up the tests

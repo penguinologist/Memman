@@ -2,7 +2,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-
 //On my honor:
 //
 //- I have not used source code obtained from another student,
@@ -127,7 +126,7 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	 *            size of the list
 	 * @return long value
 	 */
-	private long sfold(String s, int M) {
+	public long sfold(String s, int M) {
 		int intLength = s.length() / 4;
 		long sum = 0;
 		for (int j = 0; j < intLength; j++) {
@@ -246,9 +245,18 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 		// Handle a = table[new Handle((int) sfold((String) key, capacity))];
 		//
 		// return (V) a;
-		return null; // not implemented
+		return null;
 	}
 
+	/**
+	 * gets the value of a hash key
+	 * 
+	 * @param key
+	 *            to get an object
+	 * @param compareData
+	 *            to compare an object
+	 * @return V object to be retrieved
+	 */
 	@SuppressWarnings("unchecked")
 	public V get(Object key, MemoryManager compareData) {
 		int count = 0;
@@ -308,9 +316,18 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	 */
 	@Override
 	public V remove(Object key) {
-		return null;// not implemented
+		return null; // not implemented
 	}
 
+	/**
+	 * removes an object from the hash
+	 * 
+	 * @param key
+	 *            to be removed
+	 * @param compareData
+	 *            where data is to be compared to
+	 * @return V data
+	 */
 	@SuppressWarnings("unchecked")
 	public V remove(Object key, MemoryManager compareData) {
 
@@ -403,7 +420,7 @@ public class Hash<K, V> implements Map<K, V>, Cloneable, Serializable {
 	}
 
 	/**
-	 * Thie method gets the capacity
+	 * This method gets the capacity
 	 * 
 	 * @return int value of the capacity of the hashmap
 	 */

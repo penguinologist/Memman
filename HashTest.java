@@ -22,154 +22,82 @@ import org.junit.Test;
 //during the discussion. I have violated neither the spirit nor
 //letter of this restriction.
 
-
 /**
  * @author Jeroen Goossens (jeroen)
  * @author Phuong Le (ldp91)
  * @version 9/17/2014
  */
 public class HashTest {
-	Hash<String, Handle> test;
+	Hash<String, Integer> test;
 
 	/**
-	 * Setup for the tests
+	 * setup
 	 */
 	@Before
 	public void setUp() {
-		test = new Hash<String, Handle>(10);
+		test = new Hash<String, Integer>(32);
+
 	}
 
 	/**
-	 * Test method for {@link Hash#clear()}.
+	 * tests the clear
 	 */
 	@Test
 	public void testClear() {
+		test.put("blablabla", test.size());
+		assertEquals(32, test.size());
 		test.clear();
-		assertEquals(0, test.getItems());
+		assertEquals(32, test.size());
 	}
 
 	/**
-	 * Test method for {@link Hash#put(java.lang.Object, java.lang.Object)}.
+	 * tests the contains
 	 */
 	@Test
-	public void testPutKV() {
-		test.put("hello", new Handle(1));
-		assertEquals(0, test.getItems());
+	public void testContainsKey() {
+		test.put("test value", test.size());
+		assertEquals(32, test.size());
+		assertFalse(test.containsKey("test value"));
 	}
 
 	/**
-	 * Test method for
-	 * {@link Hash#put(java.lang.Object, java.lang.Object, MemoryManager)}.
+	 * tests the get
 	 */
 	@Test
-	public void testPutKVMemoryManager() {
-		MemoryManager temp = new MemoryManager(32);
-		test.put("hello", new Handle(1), temp);
-		assertEquals(1, test.getItems());
-		assertTrue(true);
+	public void testGet() {
+		test.put("test", test.size());
+		assertNull(test.get("test"));
 
-		assertEquals(1, test.getItems());
-		assertFalse(test.isEmpty());
-		assertEquals(10, test.size());
-		assertEquals(10, test.getCapacity());
 	}
 
 	/**
-	 * Test method for {@link Hash#containsKey(java.lang.Object)}.
+	 * tests the empty
 	 */
 	@Test
-	public void testContainsKeyObject() {
-		assertTrue(true);// this method is not implemented
+	public void testisEmtpy() {
+		assertTrue(test.isEmpty());
+		test.put("test value", test.size());
+		assertEquals(32, test.size());
+
 	}
 
 	/**
-	 * Test method for {@link Hash#containsValue(java.lang.Object)}.
+	 * tests the remove
 	 */
 	@Test
-	public void testContainsValue() {
-		assertTrue(true);// this method is not implemented
+	public void testRemove() {
+		test.put("test value", test.size());
+		assertEquals(32, test.size());
+		test.remove("test value");
+		assertEquals(32, test.size());
+
 	}
 
 	/**
-	 * Test method for {@link Hash#entrySet()}.
+	 * tests the size
 	 */
 	@Test
-	public void testEntrySet() {
-		assertTrue(true);// this method is not implemented
+	public void testSize() {
+		assertEquals(32, test.size());
 	}
-
-	/**
-	 * Test method for {@link Hash#get(java.lang.Object)}.
-	 */
-	@Test
-	public void testGetObject() {
-		assertTrue(true);// this method is not implemented
-	}
-
-	/**
-	 * Test method for {@link Hash#get(java.lang.Object, MemoryManager)}.
-	 */
-	@Test
-	public void testGetObjectMemoryManager() {
-		assertNull(test.get("", new MemoryManager(32)));
-	}
-
-	/**
-	 * Test method for {@link Hash#keySet()}.
-	 */
-	@Test
-	public void testKeySet() {
-		assertTrue(true);// this method is not implemented
-	}
-
-	/**
-	 * Test method for {@link Hash#putAll(java.util.Map)}.
-	 */
-	@Test
-	public void testPutAll() {
-		assertTrue(true);// this method is not implemented
-	}
-
-	/**
-	 * Test method for {@link Hash#remove(java.lang.Object)}.
-	 */
-	@Test
-	public void testRemoveObject() {
-		assertTrue(true);// this method is not implemented
-	}
-
-	/**
-	 * Test method for {@link Hash#getValues()}.
-	 */
-	@Test
-	public void testGetValues() {
-		assertTrue(true);// this method is used in the code itself
-	}
-
-	/**
-	 * Test method for {@link Hash#values()}.
-	 */
-	@Test
-	public void testValues() {
-		assertTrue(true);// this method is not implemented
-	}
-
-	/**
-	 * Test method for {@link Hash#getCapacity()}.
-	 */
-	@Test
-	public void testGetCapacity() {
-		assertEquals(10, test.getCapacity());
-	}
-
-	/**
-	 * Test method for {@link Hash#indexOfValue(java.lang.Object)}.
-	 */
-	@Test
-	public void testIndexOfValue() {
-		MemoryManager temp = new MemoryManager(32);
-		test.put("hello", new Handle(1), temp);
-		assertEquals(7, test.indexOfValue(new Handle(1)));
-	}
-
 }

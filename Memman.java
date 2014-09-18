@@ -22,10 +22,9 @@ import java.util.Scanner;
 //letter of this restriction.
 // -------------------------------------------------------------------------
 /**
- * Write a one-sentence summary of your class here. Follow it with additional
- * details about its purpose, what abstraction it represents, and how to use it.
- *
- * @author1 Phuong Le(Ldp91)
+ * The memman class in all its glory
+ * @author Phuong Le(Ldp91)
+ * @author Jeroen
  * @version 2014.09.14
  */
 public class Memman
@@ -40,9 +39,9 @@ public class Memman
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
+     * main executable command
      *
-     * @param args
+     * @param args to be passed along
      */
     public static void main(String[] args)
     {
@@ -55,16 +54,18 @@ public class Memman
         commandFile = args[2];
         artists = new Hash<String, Handle>(initialHashSize);
         songs = new Hash<String, Handle>(initialHashSize);
-        memManager = new MemoryManager(blockSize); 
+        memManager = new MemoryManager(blockSize); // TODO
+                                                   // should
+                                                   // we link
         readCommandFile(commandFile);
     }
 
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
+     * reads a command file
      *
-     * @param fileName
+     * @param fileName of the file
      */
     public static void readCommandFile(String fileName)
     {

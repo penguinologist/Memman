@@ -22,7 +22,7 @@ import org.junit.Test;
 //during the discussion. I have violated neither the spirit nor
 //letter of this restriction.
 /**
- * This class tests the memorymanager
+ * This class tests the memory manager
  * 
  * @author Jeroen
  * @author Phuong Le
