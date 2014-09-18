@@ -6,120 +6,106 @@
 
 public class FreeBlock {
 
-	private DoubleLinkedList<Handle> data;
+    /**
+     * local vars
+     */
+    private int startPosition;
+    private int length;
 
-	// ------------------------------------------------
-	public FreeBlock() {
-		data = new DoubleLinkedList<Handle>();
-	}
 
-	public void add(Handle newBlock) {
-		if (data.getSize() == 0) {
-			data.append(newBlock, 0);
-			return;
-		}
-		if (newBlock.getStartPosition() + newBlock.getLength() < data
-				.getElement(0).getStartPosition()) {
-			data.append(newBlock, 0);
-			return;
-		}
-		if (newBlock.isConsecutiveTo(data.getElement(0))) {
-			data.getElement(0).expand(newBlock);
-			if (data.getSize() > 1) {
-				if (data.getElement(0).isConsecutiveTo(data.getElement(1))) {
-					data.getElement(0).expand(data.getElement(1));
-				}
-			}
-			return;
-		}
-		if (newBlock.getStartPosition() + newBlock.getLength() < data
-				.getElement(0).getStartPosition()) {
-			data.append(newBlock, 0);
-			return;
-		}
-		for (int i = 0; i < data.getSize() - 1; i++) {
-			if (data.getElement(i).isConsecutiveTo(newBlock)) {
-				data.getElement(i).expand(newBlock);
-				// keep checking if the next block is consecutive to the block
-				if (data.getElement(i).isConsecutiveTo(data.getElement(i + 1))) {
-					data.getElement(i).expand(data.getElement(i + 1));
-				}
-				return;
-			}
-			if (newBlock.isConsecutiveTo(data.getElement(i + 1))) {
-				data.getElement(i + 1).setStartPosition(
-						newBlock.getStartPosition());
-				data.getElement(i + 1).setLength(
-						newBlock.getLength()
-								+ data.getElement(i + 1).getLength());
-				return;
-			}
-			if (data.getElement(i).getStartPosition()
-					+ data.getElement(i).getLength() < newBlock
-						.getStartPosition()
-					&& data.getElement(i + 1).getStartPosition()
-							+ data.getElement(i + 1).getLength() > newBlock
-								.getStartPosition()) {
-				data.append(newBlock, i + 1);
-				return;
-			}
-		}
-		if (data.getElement(data.getSize() - 1).isConsecutiveTo(newBlock)) {
-			data.getElement(data.getSize() - 1).expand(newBlock);
-		} else {
-			data.append(newBlock, data.getSize());
-		}
+    // Constructor
+    // ----------------------------------------------------------
+    /**
+     * Create a new Handle for the memory pool
+     * @param startPosition where the handle starts
+     * @param length of the item stored
+     */
+    public FreeBlock(int startPosition, int length)
+    {
+        this.startPosition = startPosition;
+        this.length = length;
+    }
 
-	}
 
-	public void remove(Handle usedBlock) {
-		for (int i = 0; i < data.getSize(); i++) {
-			if (data.getElement(i).getStartPosition() == usedBlock
-					.getStartPosition()) {
-				if (data.getElement(i).getLength() == usedBlock.getLength()) {
-					data.remove(i);
-				} else {
-					data.getElement(i).setStartPosition(
-							usedBlock.getLength()
-									+ usedBlock.getStartPosition());
-					data.getElement(i).setLength(
-							data.getElement(i).getLength()
-									- usedBlock.getLength());
-				}
-				return;
-			}
-		}
-	}
+    // ----------------------------------------------------------
+    /**
+     * Returns the start position of the handle
+     * @return int value of the start position
+     */
+    public int getStartPosition()
+    {
+        return startPosition;
+    }
 
-	// ----------------------------------------------------------
-	/**
-	 * Get the position for the best fit block
-	 * 
-	 * @param size
-	 *            of needed block
-	 * @return null if there is not sufficient free block
-	 */
-	public Handle getBlock(int size) {
-		Handle result = null;
-		int bestFit = Integer.MAX_VALUE;
-		for (int i = 0; i < data.getSize(); i++) {
-			if (size <= data.getElement(i).getLength()
-					&& data.getElement(i).getLength() - size < bestFit) {
-				result = data.getElement(i);
-				bestFit = data.getElement(i).getLength() - size;
-			}
-		}
-		return result;
-	}
 
-	public String toString() {
-		String result = "";
-		for (int i = 0; i < data.getSize(); i++) {
-			result += data.getElement(i).toString();
-			if (i + 1 < data.getSize()) {
-				result += " -> ";
-			}
-		}
-		return result;
-	}
+    // ----------------------------------------------------------
+    /**
+     * returns the length of the string
+     * @return int value of the length
+     */
+    public int getLength()
+    {
+        return length;
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * This method sets the start position
+     * @param startPosition where the handle is supposed to start
+     */
+    public void setStartPosition(int startPosition)
+    {
+        this.startPosition = startPosition;
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * This method sets the length of the handle
+     * @param length of the handle
+     */
+    public void setLength(int length)
+    {
+        this.length = length;
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * This method checks to see if two handles are consecutive to eachother
+     * @param other handel to be compared to
+     * @return boolean value indicating validity
+     */
+    public boolean isConsecutiveTo(FreeBlock other)
+    {
+        if (other == null)
+        {
+            return false;
+        }
+        return (startPosition + length == other.startPosition);
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * This method expands the handle to cover two handles.
+     * @param newBlock the new block to lengthen to
+     */
+    public void expand(FreeBlock newBlock)
+    {
+        if (this.isConsecutiveTo(newBlock))
+        {
+            this.length = this.length + newBlock.length;
+        }
+    }
+
+/**
+ * this method returns the string value of the handle
+ * @return String value of the handle
+ */
+    public String toString()
+    {
+        return "(" + startPosition + "," + length + ")";
+    }
 }

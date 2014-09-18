@@ -13,12 +13,12 @@ import java.util.Scanner;
  */
 public class Memman
 {
-    private static int                   initialHashSize;
-    private static int                   blockSize;
-    private static String                commandFile;
-    private static Hash<String, Integer> artists;
-    private static Hash<String, Integer> songs;
-    private static MemoryManager         memManager;
+    private static int                  initialHashSize;
+    private static int                  blockSize;
+    private static String               commandFile;
+    private static Hash<String, Handle> artists;
+    private static Hash<String, Handle> songs;
+    private static MemoryManager        memManager;
 
 
     // ----------------------------------------------------------
@@ -36,8 +36,8 @@ public class Memman
         initialHashSize = Integer.parseInt(args[0]);
         blockSize = Integer.parseInt(args[1]);
         commandFile = args[2];
-        artists = new Hash<String, Integer>(initialHashSize);
-        songs = new Hash<String, Integer>(initialHashSize);
+        artists = new Hash<String, Handle>(initialHashSize);
+        songs = new Hash<String, Handle>(initialHashSize);
         memManager = new MemoryManager(blockSize); // TODO
                                                    // should
                                                    // we link
@@ -115,20 +115,22 @@ public class Memman
             {
                 if (artists.getItems() + 1 > artists.size() / 2)
                 {
-                    DoubleLinkedList<Integer> listOfArtists =
+                    DoubleLinkedList<Handle> listOfArtists =
                         artists.getValues();
-                    artists = new Hash<String, Integer>(artists.size() * 2);
+                    artists = new Hash<String, Handle>(artists.size() * 2);
                     for (int i = 0; i < listOfArtists.getSize(); i++)
                     {
-                        artists.put(
-                            memManager.getData(listOfArtists.getElement(i)),
-                            listOfArtists.getElement(i).intValue(), memManager);
+                        artists.put(memManager.getData(listOfArtists
+                            .getElement(i).getStartPosition()), listOfArtists
+                            .getElement(i));
                     }
 
                     System.out.println("Artist hash table size doubled.");
                 }
-                artists.put(args[0], memManager.insert(args[0].getBytes())
-                    .getStartPosition(), memManager);
+                artists.put(
+                    args[0],
+                    new Handle(memManager.insert(args[0].getBytes())
+                        .getStartPosition()));
                 System.out.println("|" + args[0]
                     + "| is added to the artist database.");
             }
@@ -142,19 +144,20 @@ public class Memman
             {
                 if (songs.getItems() + 1 > songs.size() / 2)
                 {
-                    DoubleLinkedList<Integer> listOfSongs = songs.getValues();
-                    songs = new Hash<String, Integer>(songs.size() * 2);
+                    DoubleLinkedList<Handle> listOfSongs = songs.getValues();
+                    songs = new Hash<String, Handle>(songs.size() * 2);
                     for (int i = 0; i < listOfSongs.getSize(); i++)
                     {
-                        songs.put(
-                            memManager.getData(listOfSongs.getElement(i)),
-                            listOfSongs.getElement(i).intValue(), memManager);
+                        songs.put(memManager.getData(listOfSongs.getElement(i)
+                            .getStartPosition()), listOfSongs.getElement(i));
                     }
 
                     System.out.println("Song hash table size doubled.");
                 }
-                songs.put(args[1], memManager.insert(args[1].getBytes())
-                    .getStartPosition(), memManager);
+                songs.put(
+                    args[1],
+                    new Handle(memManager.insert(args[1].getBytes())
+                        .getStartPosition()));
                 System.out.println("|" + args[1]
                     + "| is added to the song database.");
             }
@@ -173,9 +176,9 @@ public class Memman
         {
             if (artists.containsKey(args[1], memManager))
             {
-                int index = artists.get(args[1],memManager);
+                int index = artists.get(args[1], memManager).getStartPosition();
                 memManager.removeAt(index);
-                artists.remove(args[1],memManager);
+                artists.remove(args[1], memManager);
                 System.out.println("|" + args[1]
                     + "| is removed from the artist database.");
             }
@@ -189,9 +192,9 @@ public class Memman
         {
             if (songs.containsKey(args[1], memManager))
             {
-                int index = songs.get(args[1],memManager);
+                int index = songs.get(args[1], memManager).getStartPosition();
                 memManager.removeAt(index);
-                songs.remove(args[1],memManager);
+                songs.remove(args[1], memManager);
                 System.out.println("|" + args[1]
                     + "| is removed from the song database.");
             }
@@ -208,23 +211,24 @@ public class Memman
     {
         if (args[0].equals("artist"))
         {
-            DoubleLinkedList<Integer> listOfArtists = artists.getValues();
+            DoubleLinkedList<Handle> listOfArtists = artists.getValues();
             for (int i = 0; i < listOfArtists.getSize(); i++)
             {
                 System.out.println("|"
-                    + memManager.getData(listOfArtists.getElement(i)) + "| "
+                    + memManager.getData(listOfArtists.getElement(i)
+                        .getStartPosition()) + "| "
                     + artists.indexOfValue(listOfArtists.getElement(i)));
             }
             System.out.println("total artists: " + listOfArtists.getSize());
         }
         else if (args[0].equals("song"))
         {
-            DoubleLinkedList<Integer> listOfSongs = songs.getValues();
+            DoubleLinkedList<Handle> listOfSongs = songs.getValues();
             for (int i = 0; i < listOfSongs.getSize(); i++)
             {
                 System.out.println("|"
-                    + memManager.getData(listOfSongs.getElement(i))
-                    + "| "
+                    + memManager.getData(listOfSongs.getElement(i)
+                        .getStartPosition()) + "| "
                     + songs.indexOfValue(listOfSongs.getElement(i)));
             }
             System.out.println("total songs: " + listOfSongs.getSize());

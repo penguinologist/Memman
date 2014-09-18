@@ -10,33 +10,33 @@ public class MemoryManager {
 	private int poolSize;
 	private int blockSize;
 	private byte[] pool;
-	private FreeBlock availableMem;
+	FreeMemoryManager availableMem;
 
 	// Constructor
 
 	// ----------------------------------------------------------
 	/**
 	 * Create a new MemoryManager object.
-	 * 
+	 *
 	 * @param blockSize
 	 */
 	public MemoryManager(int blockSize) {
 		this.poolSize = blockSize;
 		this.blockSize = blockSize;
 		pool = new byte[blockSize];
-		availableMem = new FreeBlock();
-		availableMem.add(new Handle(0, blockSize));
+		availableMem = new FreeMemoryManager();
+		availableMem.append(new FreeBlock(0, blockSize),0);
 	}
 
 	// ----------------------------------------------------------
 	/**
 	 * Place a description of your method here.
-	 * 
+	 *
 	 * @param space
 	 * @param size
 	 * @return 0: successful 1: increase size of pool -1: fail
 	 */
-	Handle insert(byte[] space) {
+	public Handle insert(byte[] space) {
 		int size = space.length;
 		byte[] newSpace = new byte[size + 2];
 		for (int i = 0; i < size; i++) {
@@ -50,15 +50,15 @@ public class MemoryManager {
 			this.expandMemoryPool();
 		}
 
-		Handle insertPos = availableMem.getBlock(size);
+		FreeBlock insertPos = availableMem.getBlock(size);
 		// Copy data to memory pool
 		for (int i = insertPos.getStartPosition(); i < insertPos
 				.getStartPosition() + size; i++) {
 			pool[i] = newSpace[i - insertPos.getStartPosition()];
 		}
 		// Delete freeblock
-		Handle result = new Handle(insertPos.getStartPosition(), size);
-		availableMem.remove(result);
+		Handle result = new Handle(insertPos.getStartPosition());
+		availableMem.remove(new FreeBlock(result.getStartPosition(), size));
 		return result;
 	}
 
@@ -79,7 +79,7 @@ public class MemoryManager {
 		for (int i = 0; i < poolSize; i++) {
 			temp[i] = pool[i];
 		}
-		availableMem.add(new Handle(poolSize, blockSize));
+		availableMem.add(new FreeBlock(poolSize, blockSize));
 		poolSize = poolSize + blockSize;
 		pool = temp;
 		System.out
@@ -88,7 +88,7 @@ public class MemoryManager {
 
 	public void removeAt(int index) {
 		int size = (int) pool[index] * 256 + (int) pool[index + 1];
-		Handle newFreeBlock = new Handle(index, size);
+		FreeBlock newFreeBlock = new FreeBlock(index, size);
 		availableMem.add(newFreeBlock);
 	}
 
